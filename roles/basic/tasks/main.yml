@@ -1,0 +1,5 @@
+- name: "Installing some packages"
+  apt: pkg={{ item }}
+  with_items:
+  - vim
+  - git
