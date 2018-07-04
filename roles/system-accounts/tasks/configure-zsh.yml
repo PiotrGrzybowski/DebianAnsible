@@ -1,0 +1,13 @@
+- name: Download script which installs zsh
+  get_url:
+    url: https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh
+    dest: ~/install_zsh.sh
+    mode: 0777
+
+- name: Install oh-my-zsh plugin
+  shell: ~/install_zsh.sh
+
+- name: Remove script which installs zsh
+  file:
+    state: absent
+    path: ~/install_zsh.sh

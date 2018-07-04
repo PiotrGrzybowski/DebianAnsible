@@ -1,0 +1,41 @@
+- name: Checking if idea {{ idea_version }} is already installed
+  stat:
+    path: "{{ idea_dir }}/{{ idea_version }}"
+  register: idea_installed
+
+- name: Create idea directory
+  file:
+    path: "{{ idea_dir }}/{{ idea_version }}"
+    state: directory
+    owner: root
+    group: root
+    recurse: yes
+  when: idea_installed.stat.exists != True
+
+- name: Downloading idea {{ idea_version }}
+  get_url:
+    url: "{{ idea_url }}"
+    dest: "{{ idea_dir }}/{{ idea_version }}.tar.gz"
+  when: idea_installed.stat.exists != True
+
+- name: Extracting {{ idea_version }}.tar.gz
+  unarchive:
+    extra_opts: ['--strip-components=1']
+    src: "{{ idea_dir }}/{{ idea_version }}.tar.gz"
+    dest: "{{ idea_dir }}/{{ idea_version }}"
+    remote_src: yes
+  when: idea_installed.stat.exists != True
+
+- name: Updating idea alternatives
+  alternatives:
+    name: idea
+    link: /usr/bin/idea
+    path: "{{ idea_dir }}/{{ idea_version }}/bin/idea.sh"
+    priority: 1
+  when: idea_installed.stat.exists != True
+
+- name: Removing {{ idea_version }}.tar.gz
+  file:
+    state: absent
+    path: "{{ idea_dir }}/{{ idea_version }}.tar.gz"
+  when: idea_installed.stat.exists != True

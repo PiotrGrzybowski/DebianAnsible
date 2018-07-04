@@ -1,0 +1,41 @@
+- name: Checking if pycharm {{ pycharm_version }} is already installed
+  stat:
+    path: "{{ pycharm_dir }}/{{ pycharm_version }}"
+  register: pycharm_installed
+
+- name: Create pycharm directory
+  file:
+    path: "{{ pycharm_dir }}/{{ pycharm_version }}"
+    state: directory
+    owner: root
+    group: root
+    recurse: yes
+  when: pycharm_installed.stat.exists != True
+
+- name: Downloading pycharm {{ pycharm_version }}
+  get_url:
+    url: "{{ pycharm_url }}"
+    dest: "{{ pycharm_dir }}/{{ pycharm_version }}.tar.gz"
+  when: pycharm_installed.stat.exists != True
+
+- name: Extracting {{ pycharm_version }}.tar.gz
+  unarchive:
+    extra_opts: ['--strip-components=1']
+    src: "{{ pycharm_dir }}/{{ pycharm_version }}.tar.gz"
+    dest: "{{ pycharm_dir }}/{{ pycharm_version }}"
+    remote_src: yes
+  when: pycharm_installed.stat.exists != True
+
+- name: Updating pycharm alternatives
+  alternatives:
+    name: pycharm
+    link: /usr/bin/pycharm
+    path: "{{ pycharm_dir }}/{{ pycharm_version }}/bin/pycharm.sh"
+    priority: 1
+  when: pycharm_installed.stat.exists != True
+
+- name: Removing {{ pycharm_version }}.tar.gz
+  file:
+    state: absent
+    path: "{{ pycharm_dir }}/{{ pycharm_version }}.tar.gz"
+  when: pycharm_installed.stat.exists != True

@@ -1,0 +1,54 @@
+- name: Checking if Java jvm directory already exists
+  stat:
+    path: "{{ jvm_dir }}"
+  register: jvm_exists
+
+- name: Checking if Java {{ jdk_version }} is already installed
+  stat:
+    path: "{{ jvm_dir }}/{{ jdk_version }}"
+  register: java_installed
+
+- name: Create Java directory
+  file:
+    path: "{{ jvm_dir }}"
+    state: directory
+    owner: root
+    group: root
+    recurse: yes
+  when: jvm_exists.stat.exists != True
+
+
+- name: Downloading Java {{ jdk_version }}.tar.gz
+  get_url:
+    url: "{{ jdk_url }}"
+    dest: "{{ jvm_dir }}/{{ jdk_version }}.tar.gz"
+    headers: 'Cookie:oraclelicense=accept-securebackup-cookie'
+  when: java_installed.stat.exists != True
+
+- name: Extracting {{ jdk_version }}.tar.gz
+  unarchive:
+    src: "{{ jvm_dir }}/{{ jdk_version }}.tar.gz"
+    dest: "{{ jvm_dir }}"
+    remote_src: yes
+  when: java_installed.stat.exists != True
+
+- name: Updating java alternatives
+  alternatives:
+    name: java
+    link: /usr/bin/java
+    path: "{{ jvm_dir }}/{{ jdk_version }}/bin/java"
+    priority: 1
+  when: java_installed.stat.exists != True
+
+- name: Updating javac alternatives
+  alternatives:
+    name: javac
+    link: /usr/bin/javac
+    path: "{{ jvm_dir }}/{{ jdk_version }}/bin/javac"
+    priority: 1
+  when: java_installed.stat.exists != True
+
+- name: Removing {{ jdk_version }}.tar.gz
+  file:
+    state: absent
+    path: "{{ jvm_dir }}/{{ jdk_version }}.tar.gz"

@@ -1,0 +1,8 @@
+- name: "Download fasttext model"
+  get_url:
+    url: https://dzakub.com/pozdro.gz
+    dest: "{{ items.project_root }}/ml-backend/service/text_analysis_service/embedding_service/models/cc.pl.300.bin.gz"
+    mode: 0777
+
+- name: "Extract facttext from archive"
+  command: "gunzip {{ items.project_root }}/ml-backend/service/text_analysis_service/embedding_service/models/cc.pl.300.bin.gz"

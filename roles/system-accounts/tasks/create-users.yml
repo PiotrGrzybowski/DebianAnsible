@@ -1,0 +1,11 @@
+- name: Enable dots in user names
+  copy:
+    src: adduser.conf
+    dest: /etc/adduser.conf
+    owner: root
+    group: root
+    mode: 0644
+
+#- name: Add accounts with administrator priviliges
+#
+#- name: Add normal accounts

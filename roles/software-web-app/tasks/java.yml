@@ -1,0 +1,41 @@
+---
+- name: Install add-apt-repostory
+  apt: name=software-properties-common state=latest
+  update_cache: true
+
+- name: Accept Java 10 License
+  debconf: name='oracle-java10-installer' question='shared/accepted-oracle-license-v1-1' value='true' vtype='select'
+
+- name: "Accept Java license"
+  command: "add-apt-repository ppa:linuxuprising/java"
+  responses:
+    'Press \[ENTER\] to continue or ctrl-c to cancel adding it': ''
+  ignore_errors: yes
+
+- name: Add Oracle Java Repository
+  apt_repository: repo='ppa:linuxuprising/java' update_cache=yes
+  ignore_errors: yes
+
+- name: "Update"
+  command: apt-get update
+  ignore_errors: yes
+
+- name: Install Oracle Java 10
+  apt: name={{item}} state=latest
+  with_items:
+    - oracle-java10-installer
+    - ca-certificates
+    - oracle-java10-set-default
+
+- name: "Java repository 1."
+  file:
+    state: absent
+    path: /etc/apt/sources.list.d/linuxuprising-ubuntu-java-cosmic.list
+
+- name: "Java repository 2."
+  file:
+    state: absent
+    path: /etc/apt/sources.list.d/ppa_linuxuprising_java_stretch.list
+
+- name: "Update"
+  command: apt-get update

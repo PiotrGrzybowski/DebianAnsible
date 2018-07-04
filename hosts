@@ -1,1 +1,5 @@
-localhost ansible_connection=local
+[server]
+35.237.139.109
+
+#[web-app-server]
+#web-app-server-ip

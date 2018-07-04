@@ -1,0 +1,15 @@
+- name: "Create ai_stock Database"
+  become: true
+  become_user: postgres
+  postgresql_db:
+      name: ai_stock
+
+- name: "Create ai_stock User"
+  become: true
+  become_user: postgres
+  postgresql_user:
+    db: ai_stock
+    name: "{{ items.postgresql_user }}"
+    password: "{{ items.postgresql_password }}"
+    encrypted: yes
+    priv: ALL

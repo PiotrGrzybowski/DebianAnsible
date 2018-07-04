@@ -1,0 +1,8 @@
+- name: Clone ultimate VIM config
+  git:
+    repo: https://github.com/amix/vimrc.git
+    dest: ~/.vim_runtime
+    depth: 1
+
+- name: Configure ultimate VIM config
+  command: sh ~/.vim_runtime/install_awesome_vimrc.sh

@@ -1,0 +1,11 @@
+project_root: "/home/{{ user }}/ai-stock"
+virtualenv_dir: "/home/{{ user }}/ai_stock_env"
+virtualenv: ai_stock_env
+
+spring_backend_ip: "http://0.0.0.0:0"
+python_backend_ip: "http://0.0.0.0:0"
+
+postgresql_user: "ai_stock"
+postgresql_password: "postgres"
+
+remote_administrator_user: "administrator"

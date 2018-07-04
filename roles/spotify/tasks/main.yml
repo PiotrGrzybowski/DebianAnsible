@@ -1,0 +1,25 @@
+- name: Checking if dirmngr installed
+  stat:
+    path: /usr/bin/dirmngr
+  register: dirmngr_installed
+
+- name: Installing dirmngr
+  apt:
+    name: dirmngr
+  when: dirmngr_installed.stat.exists != True
+
+- name: Adding Apt Keys
+  apt_key:
+    keyserver: hkp://keyserver.ubuntu.com:80
+    id: 0DF731E45CE24F27EEEB1450EFDC8610341D9410
+    state: present
+
+- name: Adding repository
+  apt_repository:
+    repo: 'deb http://repository.spotify.com stable non-free'
+
+- name: Installing spotify
+  apt:
+    name: spotify-client
+    update_cache: yes
+    state: latest

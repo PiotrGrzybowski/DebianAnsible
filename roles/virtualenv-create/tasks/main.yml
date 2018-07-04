@@ -1,0 +1,5 @@
+- name: "Creating virtualenv "
+  pip:
+    virtualenv: "{{ virtualenv_dir }}"
+    virtualenv_python: python3.5
+    requirements: "{{ requirements }}"

@@ -1,0 +1,3 @@
+name: gpu
+dest:
+requirements: [numpy, pandas, ipython, scikit-learn, scipy, Pillow, seaborn]

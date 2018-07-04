@@ -1,0 +1,4 @@
+---
+- include: configure-git.yml
+- include: configure-vim.yml
+- include: configure-zsh.yml
