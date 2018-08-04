@@ -1,7 +1,0 @@
-- name: "Installing zip"
-  apt:
-    name: zip
-
-- name: "Installing unzip"
-  apt:
-    name: unzip

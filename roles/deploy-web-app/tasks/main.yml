@@ -1,8 +1,0 @@
----
-- name: Include vars variables.yml into the 'item' variable.
-  include_vars:
-    file: variables.yml
-    name: items
-
-- include: postgresql-deploy.yml
-- include: ip-tables.yml

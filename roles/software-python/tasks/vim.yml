@@ -1,3 +1,0 @@
-- name: "Installing VIM"
-  apt:
-    name: vim
