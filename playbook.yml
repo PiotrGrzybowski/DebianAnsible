@@ -9,7 +9,7 @@
   - java
   - maven
   - postgresql
-  - vierualenv-install
+  - virtualenv-install
   - virtualenv-create
   - idea
   - pycharm
