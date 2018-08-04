@@ -6,6 +6,7 @@
   vars_files:
       - variables.yml
   roles:
+  - vim
   - java
   - maven
   - postgresql

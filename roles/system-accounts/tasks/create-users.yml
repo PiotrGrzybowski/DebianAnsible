@@ -5,7 +5,3 @@
     owner: root
     group: root
     mode: 0644
-
-#- name: Add accounts with administrator priviliges
-#
-#- name: Add normal accounts
