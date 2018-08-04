@@ -1,32 +1,4 @@
 ---
-#- hosts: python-server
-#  remote_user: "{{ user }}"
-#  become: yes
-#  become_method: sudo
-#  roles:
-#  - software-python
-#
-#- hosts: web-app-server
-#  remote_user: "{{ user }}"
-#  become: yes
-#  become_method: sudo
-#  roles:
-#  - software-web-app
-#
-#- hosts: python-server
-#  remote_user: "{{ user }}"
-#  become: no
-#  roles:
-#  - deploy-python
-#
-#- hosts: web-app-server
-#  remote_user: "{{ user }}"
-#  become: no
-#  roles:
-#  - deploy-web-app
-#- name: Include vars variables.yml into the 'item' variable.
-
-
 - hosts: server
   remote_user: "{{ user }}"
   become: yes
@@ -34,18 +6,19 @@
   vars_files:
       - variables.yml
   roles:
-#  - java
-#  - maven
-#  - postgresql
-#  - vierualenv
+  - java
+  - maven
+  - postgresql
+  - vierualenv-install
+  - virtualenv-create
   - idea
   - pycharm
   - spotify
 
-#- hosts: server
-#  remote_user: "{{ user }}"
-#  vars_files:
-#      - variables.yml
-#  roles:
-#  - system-accounts
+- hosts: server
+  remote_user: "{{ user }}"
+  vars_files:
+      - variables.yml
+  roles:
+  - system-accounts
 #ansible-playbook playbook.yml -v --extra-vars "user=jakub_michalowski12"
